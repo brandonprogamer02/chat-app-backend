@@ -1,0 +1,70 @@
+<baseUrl>?key=value  => req.query.key
+<baseUrl>/:value  => req.param.value
+
+// CHAT ROUTE
+// GET
+
+* return all chats(any param) => [  <baseUrl>/chat ]  
+
+* return all chats that contain the userId as member (query-param) => [ <baseUrl>/chat?member1=<user-id>  ] 
+
+* return the chat by chat-id(normal-param) => [ <baseUrl>/chat/<chat-id> ]  
+ 
+
+// POST
+-----------------------------------------------------------
+* insert a chat (body-param) => [<baseUrl>/chat]
+
+------------------------------------------------------------
+// PUT
+-----------------------------------
+* update a chat (body-param, normal-param) => [ <baseUrl>/chat/<chat-id> ] ;
+
+body-param: {
+     "field":<field> // field to update. if not send field then update all document with the value ,
+     "value":<valueToField>
+}
+-------------------------------------------------------
+
+// DELETE
+
+* DELETE A CHAT (normal-pam) => [ <baseUrl/chat>/<chat-id> ]
+
+===================================================================
+// AUTH ROUTE
+POST /sign => registrar un nuevo usuario y darle un token, ahi que pasarle:
+(BODY-PARAM) 
+{
+     username: string,
+     password: string
+}
+
+POST /log => para inicio de sesion. 
+Le devuelve un token al usuario, ahi que pasarle user y password validos: 
+(BODY-PARAM) 
+{
+     username: string,
+     password: string
+} 
+le devuelve si el token es valido, ahi que pasarle:
+{
+     token: string
+}
+====================================================================================
+
+// USER ROUTE
+
+GET /user => return all users
+GET /user?username => return all users that contain the string provided in hir username
+
+GET /user?token=<mytoken> => return the user by token
+
+GET /user/:id => return the user by id
+
+PUT /user/:id => update a complete document or a specific field of document 
+(BODY-PARAM) 
+{
+     field:<field to update> // option 'all' to update the complete document,
+     value: <value to the field>
+
+}
