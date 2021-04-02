@@ -1,11 +1,13 @@
 import { RequestHandler } from "express";
-import { IUserAuth, createUserAndTokenJWT, createTokenJWT, verifyJWT } from "../auth";
+import { createUserAndTokenJWT, createTokenJWT, verifyJWT } from "../auth";
+import { IUserSign } from "../types";
 
 
 export const signController: RequestHandler = async (req, res, next) => {
-     const { username, password }: IUserAuth = req.body;
-     if (!username) res.status(400).send('The property "username" has not been provided')
-     else if (!password) res.status(400).send('The property "password" has not been provided')
+
+     const { username, password }: IUserSign = req.body;
+     if (!username) res.status(400).send('The property "username" has not been provided');
+     else if (!password) res.status(400).send('The property "password" has not been provided');
      else {
           const resJWT = await createUserAndTokenJWT({ username, password });
           res.json(resJWT.token);

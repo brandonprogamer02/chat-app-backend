@@ -1,13 +1,8 @@
 import jwt from 'jsonwebtoken';
-import UserModel, { IUser } from '../models/UserModel'
+import UserModel from '../models/UserModel'
+import { ICreateTokenJWT, ICreateUserAndTokenJWT, IVerifyJWT,IUserSign } from '../types';
 
-export interface IUserAuth {
-     username: string,
-     password: string
-}
-
-
-export const createUserAndTokenJWT = async (user: IUserAuth) => {
+export const createUserAndTokenJWT = async (user: IUserSign): Promise<ICreateUserAndTokenJWT> => {
 
      // se crea un nuevo token con los datos del usuario ligados a el
      const userCreated = {
@@ -16,13 +11,15 @@ export const createUserAndTokenJWT = async (user: IUserAuth) => {
           active: false,
           contacts: [],
           imageProfile: ''
-     }
+     };
      const token = jwt.sign({ user: userCreated }, 'SECRETKEY');
      const data = await new UserModel(userCreated).save();
-     return { token, userCreated: data }
+
+     return { token, userCreated: data };
 
 }
-export const createTokenJWT = async (user: any) => {
+
+export const createTokenJWT = async (user: IUserSign): Promise<ICreateTokenJWT> => {
 
      const filter = { username: user.username, password: user.password };
      const userFinded = await UserModel.findOne(filter);
@@ -35,17 +32,16 @@ export const createTokenJWT = async (user: any) => {
      return { token: null };
 }
 
-
-export const verifyJWT = (token: string | undefined) => {
-     let res: { authData: any } = { authData: null }
+export const verifyJWT = (token: string | undefined): IVerifyJWT => {
+     let res: IVerifyJWT = { authData: null };
      if (token !== undefined) {
           try {
                // verificamos si el token que hemos recibido es valido
-               const authData = jwt.verify(token, 'SECRETKEY')
-               res = { authData }
+               const authData: {} = jwt.verify(token, 'SECRETKEY');
+               res = { authData };
           } catch (error) {
-               res = { authData: null }
+               res = { authData: null };
           }
      }
-     return res
+     return res;
 }

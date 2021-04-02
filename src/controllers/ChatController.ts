@@ -1,5 +1,6 @@
 import { RequestHandler } from 'express';
-import ChatModel, { IChat } from '../models/ChatModel';
+import ChatModel from '../models/ChatModel';
+import { IChat } from '../types';
 
 export const getChats: RequestHandler = async (req, res, next) => {
      const member1 = req.query.member1;
@@ -62,16 +63,16 @@ export const updateChat: RequestHandler = async (req, res, next) => {
      // validations
      if (field) {
           // verify if the field provides match with any field of Document User
-          if (field === 'members' || field === 'createdAt' || field === 'author' || field === 'messages' ) { }
+          if (field === 'members' || field === 'createdAt' || field === 'author' || field === 'messages') { }
           else {
                res.status(400).send(`the field "${field}" provided no match with any field of de document User`);
                return;
           }
-     }else{
+     } else {
           res.status(400).send('The property "field" has not been provided');
           return;
      }
-     if(!value){
+     if (!value) {
           res.status(400).send('The property "value" has not been provided');
           return;
      }
@@ -79,18 +80,18 @@ export const updateChat: RequestHandler = async (req, res, next) => {
      try {
           switch (req.body.field) {
                case "members":
-                    p = { $push: { members: value } }
+                    p = { $push: { members: value } };
                     break;
                case "createdAt":
-                    p = { $set: { createdAt: value } }
+                    p = { $set: { createdAt: value } };
                     break;
                case "author":
-                    p = { $set: { author: value } }
+                    p = { $set: { author: value } };
                     break;
                case "messages":
-                    const document: any = await ChatModel.findById(id)
-                    const messages = document.messages
-                    p = { $set: { messages: [...messages, value] } }
+                    const document: any = await ChatModel.findById(id);
+                    const messages = document.messages;
+                    p = { $set: { messages: [...messages, value] } };
                     break;
                default:
                     p = value
@@ -99,11 +100,10 @@ export const updateChat: RequestHandler = async (req, res, next) => {
 
           const resChat = await ChatModel.findByIdAndUpdate(id, p);
 
-          if(resChat) res.send('User updated Successfully')
+          if (resChat) res.send('User updated Successfully');
 
-          else res.status(400).send('Do not match a chat with the chat-id provided')
-          
-          
+          else res.status(400).send('Do not match a chat with the chat-id provided');
+
      } catch (error) {
           console.log(error.message);
           res.status(400).send(error.message);
@@ -115,7 +115,7 @@ export const deleteChat: RequestHandler = async (req, res, next) => {
      const id = req.params.id;
      try {
           const resChat = await ChatModel.findByIdAndRemove(id);
-          if(resChat){
+          if (resChat) {
                res.send('Chat deleted Successfully');
           } else res.status(400).send('Do not match a chat with a chat-id provided');
      } catch (error) {

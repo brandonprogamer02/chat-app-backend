@@ -21,8 +21,11 @@
 * update a chat (body-param, normal-param) => [ <baseUrl>/chat/<chat-id> ] ;
 
 body-param: {
-     "field":<field> // field to update. if not send field then update all document with the value ,
-     "value":<valueToField>
+     "field":<field> // field to update. if not send field then update all document with the value,
+     "value":<valueToField>{
+          type: DELETE | INSERT | REPLACE,
+           
+     }
 }
 -------------------------------------------------------
 
@@ -30,7 +33,7 @@ body-param: {
 
 * DELETE A CHAT (normal-pam) => [ <baseUrl/chat>/<chat-id> ]
 
-===================================================================
+=============================================================================
 // AUTH ROUTE
 POST /sign => registrar un nuevo usuario y darle un token, ahi que pasarle:
 (BODY-PARAM) 

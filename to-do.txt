@@ -1,0 +1,1 @@
+i was adding the types to all and to refactorize the controllers en base to the types

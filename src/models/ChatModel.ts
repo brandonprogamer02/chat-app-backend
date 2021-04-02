@@ -1,18 +1,5 @@
 import { model, SchemaTypes, Schema, Document } from 'mongoose'
-import { IUser } from './UserModel';
-
-export interface IMessage {
-     author: string | IUser,
-     text: string,
-     date: Date,
-}
-
-export interface IChat {
-     members: string[],
-     createdAt: Date,
-     author: string,
-     messages: IMessage[]
-} 
+import { IUser } from '../types/index';
 
 const ChatSchema = new Schema({
      members: [{

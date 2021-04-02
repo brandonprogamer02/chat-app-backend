@@ -1,6 +1,8 @@
 import { model, SchemaTypes, Schema,Document } from 'mongoose'
+import { IUser } from '../types';
 
 const UserSchema = new Schema({
+     
      username: SchemaTypes.String,
      password: SchemaTypes.String,
      active: SchemaTypes.Boolean,
@@ -9,15 +11,10 @@ const UserSchema = new Schema({
           type: SchemaTypes.ObjectId
      }],
      imageProfile: SchemaTypes.String
+
 }, { versionKey: false });
 
-export interface IUser {
-    username: string,
-    password: string,
-    active: boolean,
-    contacts: string[],
-    imageProfile: string 
-} 
+ 
 
 const UserModel = model<Document<IUser>>('Users', UserSchema);
 

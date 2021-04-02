@@ -1,11 +1,13 @@
 import { RequestHandler } from 'express'
 import { verifyJWT } from '../auth';
-import UserModel, { IUser } from '../models/UserModel'
+import UserModel from '../models/UserModel'
 import { Error } from 'mongoose';
+import { IUser } from '../types';
 
 export const getUsers: RequestHandler = async (req, res, next) => {
-     const username = req.query.username;
-     const token = req.query.token;
+
+     const username: string = req.query.username as string;
+     const token: string = req.query.token as string;
 
      if (username) {
           // find the all documents(users) that contain the username
@@ -20,7 +22,7 @@ export const getUsers: RequestHandler = async (req, res, next) => {
           const resJWT = verifyJWT(token as string);
           try {
                if (resJWT.authData) {
-                    console.log(resJWT.authData);
+
                     const username = resJWT.authData.user.username;
                     const usernameData = await UserModel.findOne({ username: username }, '-password');
                     res.json({ user: usernameData });
@@ -34,7 +36,6 @@ export const getUsers: RequestHandler = async (req, res, next) => {
           const users = await UserModel.find({}, '-password').populate('');
           res.json(users);
      }
-
 }
 
 export const getUser: RequestHandler = async (req, res, next) => {
@@ -101,7 +102,6 @@ export const updateUser: RequestHandler = async (req, res, next) => {
      }
 
      try {
-          console.log('entro');
           let updateObject = {}
           switch (req.body.field) {
                case "username":

@@ -46,11 +46,11 @@ export default async function prueba() {
      async function listGames() {
           const games = await Game.find({}).populate('publishers', 'companyName -_id')
 
-          console.log(games[0])
+         
      }
      async function listPublishers() {
           const publisher = await Publisher.find({});
-          console.log(publisher)
+          
      }
 
      // createPublisher('Square Enix', true, 'https://www.SquareEnix.com/');
