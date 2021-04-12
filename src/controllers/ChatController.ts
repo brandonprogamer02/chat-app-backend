@@ -1,9 +1,10 @@
 import { RequestHandler } from 'express';
+import { isValidObjectId } from 'mongoose';
 import ChatModel from '../models/ChatModel';
-import { IChat } from '../types';
+import { IChat, IChatArray, IChatBodyParam, IMessage } from '../types';
 
 export const getChats: RequestHandler = async (req, res, next) => {
-     const member1 = req.query.member1;
+     const member1: string = req.query.member1 as string;
      // is we receive members filter by member else not filter
      const filter = member1 ? { members: { $all: [member1] } } : {};
      try {
@@ -17,7 +18,7 @@ export const getChats: RequestHandler = async (req, res, next) => {
 }
 
 export const getChat: RequestHandler = async (req, res, next) => {
-     const id = req.params.id;
+     const id: string = req.params.id;
      // is we receive members filter by member else filter by id
      const filter = { _id: id }
      try {
@@ -58,7 +59,7 @@ export const insertChat: RequestHandler = async (req, res, next) => {
 export const updateChat: RequestHandler = async (req, res, next) => {
 
      const id = req.params.id;
-     const { value, field } = req.body;
+     const { value, field }: IChatBodyParam = req.body;
      let p = {};
      // validations
      if (field) {
@@ -80,7 +81,24 @@ export const updateChat: RequestHandler = async (req, res, next) => {
      try {
           switch (req.body.field) {
                case "members":
-                    p = { $push: { members: value } };
+                    const AA = value as IChatArray;
+                    if (isValidObjectId(AA.value)) {
+
+                         if (AA.type === 'PUSH') {
+                              p = { $push: { members: AA.value } };
+
+                         } else if (AA.type === 'DELETE') {
+                              const document: any = await ChatModel.findById(id);
+                              const new1: IChat = document;
+                              const obj = new1.members.filter(el => el != AA.value);
+                              p = { $set: { members: obj } };
+                         } else {
+                              res.status(400).send('PUSH OR DELETE DO NOT HAVE PASSED FOR MEMBERS FIELD');
+                              return;
+                         }
+                    } else {
+                         res.status(400).send('the memberId sended is not valid objectId');
+                    }
                     break;
                case "createdAt":
                     p = { $set: { createdAt: value } };
@@ -89,19 +107,39 @@ export const updateChat: RequestHandler = async (req, res, next) => {
                     p = { $set: { author: value } };
                     break;
                case "messages":
-                    const document: any = await ChatModel.findById(id);
-                    const messages = document.messages;
-                    p = { $set: { messages: [...messages, value] } };
+                    const AAA = value as IChatArray;
+                    const fff = AAA.value as IMessage;
+                    if (AAA.type === 'PUSH') {
+                         if (fff.author && fff.date && fff.text) {
+                              p = { $push: { messages: AAA.value } };
+                         } else {
+                              res.status(400).send('the messaje object sended is not valid');
+                         }
+                    } else if (AAA.type === 'DELETE') {
+                         if (isValidObjectId(AAA.value)) {
+                              const document: any = await ChatModel.findById(id);
+                              const new1: IChat = document;
+                              const obj = new1.messages.filter(el => el._id != AAA.value);
+                              p = { $set: { messages: obj } };
+
+                         } else {
+
+                              res.status(400).send('the messageID is no valid objectID');
+                         }
+                    } else {
+                         res.status(400).send('PUSH OR DELETE DO NOT HAVE PASSED FOR MESSAGES FIELD');
+                         return;
+                    }
+
                     break;
                default:
-                    p = value
+                    p = value;
                     break;
           }
 
-          const resChat = await ChatModel.findByIdAndUpdate(id, p);
+          const resChat = await ChatModel.findByIdAndUpdate(id, p, { new: true });
 
-          if (resChat) res.send('User updated Successfully');
-
+          if (resChat) res.send(resChat);
           else res.status(400).send('Do not match a chat with the chat-id provided');
 
      } catch (error) {
@@ -112,11 +150,11 @@ export const updateChat: RequestHandler = async (req, res, next) => {
 }
 
 export const deleteChat: RequestHandler = async (req, res, next) => {
-     const id = req.params.id;
+     const id: string = req.params.id;
      try {
           const resChat = await ChatModel.findByIdAndRemove(id);
           if (resChat) {
-               res.send('Chat deleted Successfully');
+               res.json(resChat);
           } else res.status(400).send('Do not match a chat with a chat-id provided');
      } catch (error) {
           console.log(error);

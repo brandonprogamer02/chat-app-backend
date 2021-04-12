@@ -1,22 +1,21 @@
 import { RequestHandler } from "express";
 import { createUserAndTokenJWT, createTokenJWT, verifyJWT } from "../auth";
-import { IUserSign } from "../types";
+import { ICreateUserAndTokenJWT, IUserSign, ICreateTokenJWT, IVerifyJWT, IUserLog } from "../types";
 
-
-export const signController: RequestHandler = async (req, res, next) => {
+export const signController: RequestHandler = async (req, res, next): Promise<void> => {
 
      const { username, password }: IUserSign = req.body;
      if (!username) res.status(400).send('The property "username" has not been provided');
      else if (!password) res.status(400).send('The property "password" has not been provided');
      else {
-          const resJWT = await createUserAndTokenJWT({ username, password });
+          const resJWT: ICreateUserAndTokenJWT = await createUserAndTokenJWT({ username, password });
           res.json(resJWT.token);
      }
 
 }
 
-export const logController: RequestHandler = async (req, res, next) => {
-     const { user, token } = req.body;
+export const logController: RequestHandler = async (req, res, next): Promise<void> => {
+     const { user, token }: IUserLog = req.body;
      if (user || token) {
           if (user) {
                if (!user.username) {
@@ -27,16 +26,16 @@ export const logController: RequestHandler = async (req, res, next) => {
                     res.status(400).send('The property user."password" has not been provided');
                     return;
                } else {
-                    const resJWT = await createTokenJWT(user);
-                    if(resJWT.token){
+                    const resJWT: ICreateTokenJWT = await createTokenJWT(user);
+                    if (resJWT.token) {
                          res.json(resJWT);
-                    }else{
+                    } else {
                          res.status(400).send('The user provided do not exists in the database');
                          return;
                     }
                }
           } else if (token) {
-               const { authData } = verifyJWT(req.body.token);
+               const { authData }: IVerifyJWT = verifyJWT(req.body.token);
                if (authData) res.json({ tokenValid: true });
                else res.json({ tokenValid: false });
           }

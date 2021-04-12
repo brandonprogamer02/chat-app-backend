@@ -7,7 +7,7 @@ interface NewUserConnectedRes {
      socketId: string
 }
 
-const peopleConnected: NewUserConnectedRes[] = []
+const peopleConnected: NewUserConnectedRes[] = [];
 
 export default () => {
 
@@ -32,10 +32,6 @@ export default () => {
                peopleConnected.push(res)
           })
 
-
-
-     })
-
-
+     });
 
 }

@@ -22,9 +22,9 @@
 
 body-param: {
      "field":<field> // field to update. if not send field then update all document with the value,
-     "value":<valueToField>{
-          type: DELETE | INSERT | REPLACE,
-           
+     "value":<valueToField> in case message or members field: {
+          type: DELETE | PUSH,
+          value: message object or members object,     
      }
 }
 -------------------------------------------------------
@@ -68,6 +68,9 @@ PUT /user/:id => update a complete document or a specific field of document
 (BODY-PARAM) 
 {
      field:<field to update> // option 'all' to update the complete document,
-     value: <value to the field>
+     value: <value to the field> = in case of contacts field : {
+          type: 'PUSH' | 'SET',
+          value: contact-id = string
+     }
 
 }
