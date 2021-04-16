@@ -1,37 +1,27 @@
-import { server } from '../index'
-import { Socket } from 'socket.io'
+import { server } from '../index';
+import { Socket, } from 'socket.io';
+import { deleteChatListener, newConnectionListener, newMessageListener } from './listeners';
 
-
-interface NewUserConnectedRes {
-     userId: string,
-     socketId: string
-}
-
-const peopleConnected: NewUserConnectedRes[] = [];
+export let io: Socket;
 
 export default () => {
 
-     const io = require("socket.io")(server, {
+     io = require("socket.io")(server, {
           cors: {
-               origin: "http://localhost:3000",
+               origin: "http://192.168.100.36:3000",
                methods: ["GET", "POST"]
           }
      });
 
-
      io.on('connection', (socket: Socket) => {
 
-          socket.on('reload-chat', (res: any) => {
-               const { membersId } = res
-               // console.log('se ha recibido el reload-chat', membersId)
-          })
+          socket.on('NEW_MESSAGE', newMessageListener);
 
-          socket.on('new-user-connected', (res: NewUserConnectedRes) => {
-               // const { membersId } = res
-               // console.log('se ha recibido el evento new-user-connected', res) 
-               peopleConnected.push(res)
-          })
+          socket.on('NEW_CONNECTION', newConnectionListener);
+
+          socket.on('DELETE_CHAT', deleteChatListener);
 
      });
 
 }
+

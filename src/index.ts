@@ -34,6 +34,5 @@ export const server = app.listen(app.get('PORT'), () => {
     console.log('Server is Running in port ' + app.get('PORT'))
 });
 
-
 //turning socket.io
-// socketIO();
+socketIO();

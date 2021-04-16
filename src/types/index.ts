@@ -23,7 +23,7 @@ export interface IChatBodyParam extends BodyParam {
 }
 
 export interface IUser {
-     _id?: string, username: string; password: string; active: boolean; contacts: string[]; 
+     _id?: string, username: string; password: string; active: boolean; contacts: string[];
      imageProfile: string;
 }
 
@@ -66,4 +66,3 @@ export interface ICreateTokenJWT {
 export interface ICreateUserAndTokenJWT {
      token: string, userCreated: Document<IUser>
 }
-
