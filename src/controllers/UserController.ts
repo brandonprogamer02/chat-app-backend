@@ -143,7 +143,7 @@ export const updateUser: RequestHandler = async (req, res, next): Promise<void> 
                     updateObject = (req.body.value as IUser);
                     break;
           }
-          const userUpdated: Document<IUser> | null = await UserModel.findByIdAndUpdate(id, updateObject, { new: true });
+          const userUpdated: Document<IUser> | null = await UserModel.findByIdAndUpdate(id, updateObject, { new: true }).populate('contacts');
           res.json(userUpdated);
      } catch (error) {
           console.log(error.message);

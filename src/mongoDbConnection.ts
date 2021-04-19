@@ -1,6 +1,6 @@
 import mongoose, { Error, ConnectionOptions } from 'mongoose';
 
-function mongoConnection() {
+async function mongoConnection() {
      const mongoDBAtlas = process.env.STRING_CONNECTION_ONLINE
      const mongoDBLocal = process.env.STRING_CONNECTION_LOCAL
 
@@ -10,16 +10,14 @@ function mongoConnection() {
      const connectionParams: ConnectionOptions = {
           useNewUrlParser: true,
           useCreateIndex: true,
-          useUnifiedTopology: true,
+          useUnifiedTopology: true
+     };
+     try {
+          await mongoose.connect(mongoDBLocal, connectionParams);
+          console.log('Connected to database ');
+     } catch (error) {
+          console.error(`Error connecting to the database. \n${error.message}`);
      }
-
-     mongoose.connect(mongoDBLocal, connectionParams)
-          .then(() => {
-               console.log('Connected to database ' )
-          })
-          .catch((err: Error) => {
-               console.error(`Error connecting to the database. \n${err.message}`);
-          })
 }
 
 export default mongoConnection

@@ -137,7 +137,7 @@ export const updateChat: RequestHandler = async (req, res, next) => {
                     break;
           }
 
-          const resChat = await ChatModel.findByIdAndUpdate(id, p, { new: true });
+          const resChat = await ChatModel.findByIdAndUpdate(id, p, { new: true }).populate('members author messages.author');;
 
           if (resChat) res.send(resChat);
           else res.status(400).send('Do not match a chat with the chat-id provided');
