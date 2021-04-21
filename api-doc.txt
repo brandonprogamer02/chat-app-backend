@@ -39,7 +39,8 @@ POST /sign => registrar un nuevo usuario y darle un token, ahi que pasarle:
 (BODY-PARAM) 
 {
      username: string,
-     password: string
+     password: string,
+     userLogImage: string
 }
 
 POST /log => para inicio de sesion. 
@@ -52,6 +53,10 @@ Le devuelve un token al usuario, ahi que pasarle user y password validos:
 le devuelve si el token es valido, ahi que pasarle:
 {
      token: string
+}
+le devuelve si el usuario existe para iniciar sesion por reconocimineto facial, ahi que pasarle
+{
+     base64image: string, userId: string
 }
 ====================================================================================
 

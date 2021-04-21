@@ -42,9 +42,16 @@ export interface IMessage {
      date: Date,
 }
 
+export interface IUserMin { username: string, password: string }
+
 export interface IUserSign {
      username?: string,
-     password?: string
+     password?: string,
+     userLogImage: string
+}
+
+export interface ILogFacialRecognition {
+     base64image: string, userId: string
 }
 
 export interface IUserLog {
@@ -52,7 +59,8 @@ export interface IUserLog {
           username: string,
           password: string
      },
-     token: string
+     token: string,
+     resource: ILogFacialRecognition
 }
 
 export interface IVerifyJWT {
@@ -64,5 +72,5 @@ export interface ICreateTokenJWT {
 }
 
 export interface ICreateUserAndTokenJWT {
-     token: string, userCreated: Document<IUser>
+     token: string, userCreated: IUser
 }

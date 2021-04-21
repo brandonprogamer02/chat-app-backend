@@ -8,7 +8,7 @@ export default () => {
 
      io = require("socket.io")(server, {
           cors: {
-               origin: "http://192.168.100.36:3000",
+               origin: "http://localhost:3000",
                methods: ["GET", "POST"]
           }
      });

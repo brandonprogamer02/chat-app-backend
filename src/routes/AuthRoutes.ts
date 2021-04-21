@@ -1,6 +1,7 @@
 import express from 'express';
 
-import { logController, signController } from '../controllers/AuthController';
+import logController from '../controllers/authControllers/logController';
+import signController from '../controllers/authControllers/signController';
 
 const router = express.Router();
 

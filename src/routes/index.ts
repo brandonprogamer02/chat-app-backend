@@ -3,27 +3,36 @@ import chatRoutes from './ChatRoutes';
 import LoginRoutes from './AuthRoutes';
 import { app } from '../index';
 import path from 'path';
-import facialRecognition from '../facialRecognition'
+import fs from 'fs';
+import { facialReconitionWithStorageImage } from '../facialRecognition';
 
 export function routes() {
 
-    app.post('/upload', async (req, res) => {
-        if (!req.files || Object.keys(req.files).length === 0) {
-            return res.status(400).send('No files were uploaded.');
-        }
-
-        // this is the image received
-        try {
-            let { userFace } = req.files as any;
-            console.log(userFace);
+    // app.post('/uploads', async (req, res, next) => {
+    //     try {
             
-            const res1 = await facialRecognition(userFace.tempFilePath);
-            res.json(res1);
-        } catch (error) {
-            res.send(400).send('que bobo yae');
-            console.log(error);
-        }
-    });
+    //         const { base64image, id } = req.body.resource;
+
+    //         // to declare some path to store your converted image
+    //         const _path = path.join(__dirname, '..', 'uploads', `${id}.png`);
+    //         // const path = './images/' + Date.now() + '.png'
+
+    //         // to convert base64 format into random filename
+    //         const base64Data = base64image.replace(/^data:([A-Za-z-+/]+);base64,/, '');
+
+    //         // save image
+    //         fs.writeFileSync(_path, base64Data, { encoding: 'base64' });
+    //         // the image is saved, now active the facial recognition system
+    //         const res1 = await facialReconitionWithStorageImage(_path);
+    //         res.send(res1);
+    //         // delete the image
+    //         fs.unlinkSync(_path);
+
+    //     } catch (e) {
+    //         res.status(500).send(e);
+    //         next(e);
+    //     }
+    // });
 
     // loading all routes
     app.use(

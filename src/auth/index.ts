@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import UserModel from '../models/UserModel'
-import { ICreateTokenJWT, ICreateUserAndTokenJWT, IVerifyJWT,IUserSign } from '../types';
+import { ICreateTokenJWT, ICreateUserAndTokenJWT, IVerifyJWT, IUserSign, IUserMin, IUser } from '../types';
 
 export const createUserAndTokenJWT = async (user: IUserSign): Promise<ICreateUserAndTokenJWT> => {
 
@@ -13,13 +13,13 @@ export const createUserAndTokenJWT = async (user: IUserSign): Promise<ICreateUse
           imageProfile: ''
      };
      const token = jwt.sign({ user: userCreated }, 'SECRETKEY');
-     const data = await new UserModel(userCreated).save();
+     const data = await new UserModel(userCreated).save() as unknown as IUser;
 
      return { token, userCreated: data };
 
 }
 
-export const createTokenJWT = async (user: IUserSign): Promise<ICreateTokenJWT> => {
+export const createTokenJWT = async (user: IUserMin): Promise<ICreateTokenJWT> => {
 
      const filter = { username: user.username, password: user.password };
      const userFinded = await UserModel.findOne(filter);
