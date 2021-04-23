@@ -13,7 +13,7 @@ export default () => {
 
      io = require("socket.io")(server, {
           cors: {
-               origin: "http://localhost:3000",
+               origin: "https://brandox-chat-app.netlify.app/",
                methods: ["GET", "POST"]
           }
      });
