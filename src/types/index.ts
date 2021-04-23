@@ -29,7 +29,7 @@ export interface IUser {
 
 export interface IChat {
      _id?: string,
-     members: string[],
+     members: string[] | IUser[],
      createdAt: Date,
      author: string,
      messages: IMessage[]

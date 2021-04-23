@@ -8,12 +8,12 @@ async function mongoConnection() {
      if (mongoDBAtlas === undefined) throw new Error('')
 
      const connectionParams: ConnectionOptions = {
-          useNewUrlParser: true,
-          useCreateIndex: true,
+          // useNewUrlParser: true,
+          // useCreateIndex: true,
           useUnifiedTopology: true
      };
      try {
-          await mongoose.connect(mongoDBLocal, connectionParams);
+          await mongoose.connect(mongoDBAtlas);
           console.log('Connected to database ');
      } catch (error) {
           console.error(`Error connecting to the database. \n${error.message}`);

@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 import { isValidObjectId } from 'mongoose';
 import ChatModel from '../models/ChatModel';
-import { IChat, IChatArray, IChatBodyParam, IMessage } from '../types';
+import { IChat, IChatArray, IChatBodyParam, IMessage, IUser } from '../types';
 
 export const getChats: RequestHandler = async (req, res, next) => {
      const member1: string = req.query.member1 as string;
@@ -46,7 +46,7 @@ export const insertChat: RequestHandler = async (req, res, next) => {
      else {
           try {
                const newChat = await new ChatModel({ members, author, createdAt, messages }).save();
-               res.send(newChat);
+               res.send(newChat.populate('members author messages.author'));
           } catch (error) {
                console.log(error.messages);
                res.status(400).send(error.message);
@@ -90,7 +90,7 @@ export const updateChat: RequestHandler = async (req, res, next) => {
                          } else if (AA.type === 'DELETE') {
                               const document: any = await ChatModel.findById(id);
                               const new1: IChat = document;
-                              const obj = new1.members.filter(el => el != AA.value);
+                              const obj = (new1.members as string[]).filter(el => el != AA.value);
                               p = { $set: { members: obj } };
                          } else {
                               res.status(400).send('PUSH OR DELETE DO NOT HAVE PASSED FOR MEMBERS FIELD');
@@ -153,8 +153,9 @@ export const deleteChat: RequestHandler = async (req, res, next) => {
      const id: string = req.params.id;
      try {
           const resChat = await ChatModel.findByIdAndRemove(id);
+          const chats = await ChatModel.find({});
           if (resChat) {
-               res.json(resChat);
+               res.json(chats);
           } else res.status(400).send('Do not match a chat with a chat-id provided');
      } catch (error) {
           console.log(error);
