@@ -17,7 +17,7 @@ export const app = express();
 app.use(cors());
 
 // defining port
-app.set('PORT', process.env.port || 5000);
+app.set('PORT', process.env.PORT || 5000);
 
 //connection to database
 mongoConnection();
