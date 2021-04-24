@@ -16,7 +16,7 @@ export default () => {
 
      io = require("socket.io")(server, {
           cors: {
-               origin: offlinePermiss,
+               origin: onlinePermiss,
                methods: ["GET", "POST"]
           },
 

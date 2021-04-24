@@ -13,7 +13,7 @@ async function mongoConnection() {
           useUnifiedTopology: true
      };
      try {
-          await mongoose.connect(mongoDBLocal);
+          await mongoose.connect(mongoDBAtlas);
           console.log('Connected to database ');
      } catch (error) {
           console.error(`Error connecting to the database. \n${error.message}`);
