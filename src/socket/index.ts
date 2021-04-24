@@ -11,11 +11,15 @@ export let io: Socket;
 
 export default () => {
 
+     const onlinePermiss= 'https://brandox-chat-app.netlify.app/';
+     const offlinePermiss = 'http://localhost:3000/'
+
      io = require("socket.io")(server, {
           cors: {
-               origin: "https://brandox-chat-app.netlify.app/",
+               origin: offlinePermiss,
                methods: ["GET", "POST"]
-          }
+          },
+
      });
 
      io.on('connection', (socket: Socket) => {

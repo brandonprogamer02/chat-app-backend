@@ -56,7 +56,7 @@ le devuelve si el token es valido, ahi que pasarle:
 }
 le devuelve si el usuario existe para iniciar sesion por reconocimineto facial, ahi que pasarle
 {
-     base64image: string, userId: string
+     base64image: string
 }
 ====================================================================================
 

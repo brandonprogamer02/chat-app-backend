@@ -21,11 +21,11 @@ app.set('PORT', process.env.PORT || 5000);
 
 //connection to database
 mongoConnection();
-prueba();
+// prueba();
 
 // turning json
-app.use(express.json({limit:'50mb'}));
-app.use(express.urlencoded({ extended: false,limit:'50mb' }));
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ extended: false, limit: '50mb' }));
 
 // turning route
 routes();
@@ -37,5 +37,6 @@ app.use(express.static(path.join(__dirname, '..', 'public')));
 export const server = app.listen(app.get('PORT'), () => {
     console.log('Server is Running in port ' + app.get('PORT'))
     //turning socket.io
-    socketIO();
 });
+
+socketIO();

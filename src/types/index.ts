@@ -51,7 +51,7 @@ export interface IUserSign {
 }
 
 export interface ILogFacialRecognition {
-     base64image: string, userId: string
+     base64image: string
 }
 
 export interface IUserLog {

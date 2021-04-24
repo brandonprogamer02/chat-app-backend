@@ -1,5 +1,4 @@
 import { RequestHandler } from "express";
-import path from "path";
 import { verifyJWT } from "../../../auth";
 import { IUserLog, IVerifyJWT } from "../../../types";
 import loginByUserCredentials from './loginByUserCredentials';
