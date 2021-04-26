@@ -27,6 +27,9 @@ export async function verifyIfExistFaceAndIfIsBelongToOtherUser(userLogImageBase
 
 
 export function saveImageStorage(userLogImageBase64: string, userId: string) {
+     const pathDir = path.join(__dirname, 'userFaces')
+     // if the dir do not exists then make it
+     if(!fs.existsSync(pathDir)) fs.mkdirSync(pathDir);
      const _path = path.join(__dirname, 'userFaces', `${userId}.png`);
 
      // to convert base64 format into random filename
