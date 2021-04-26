@@ -1,7 +1,7 @@
 import path from "path";
 import { facialReconitionWithStorageImage } from ".";
 import fs from 'fs';
-
+//
 export async function verifyIfExistFaceAndIfIsBelongToOtherUser(userLogImageBase64: string) {
 
      // const _path = path.join(__dirname, '..', '..', 'facialRecognition', 'userFaces', `${userId}.png`);
