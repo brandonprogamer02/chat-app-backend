@@ -6,14 +6,16 @@ import fs from 'fs';
 export async function facialReconitionWithStorageImage(inputImage) {
      const MODEL_URL = path.join(__dirname, './models');
 
-     try {
+     try {     
+          await Promise.all([
+               faceapi.nets.ssdMobilenetv1.loadFromDisk(MODEL_URL),
+               faceapi.nets.faceLandmark68Net.loadFromDisk(MODEL_URL),
+               faceapi.nets.faceRecognitionNet.loadFromDisk(MODEL_URL),
+          ]);
           // loading models 
-          await faceapi.nets.ssdMobilenetv1.loadFromDisk(MODEL_URL);
-          await faceapi.nets.faceLandmark68Net.loadFromDisk(MODEL_URL);
-          await faceapi.nets.faceRecognitionNet.loadFromDisk(MODEL_URL);
           console.log('ya cargo modelos')
      } catch (error) {
-          (error) => console.log(error);
+          onsole.log(error);
      }
 
      // loading input images
