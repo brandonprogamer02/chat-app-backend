@@ -40,6 +40,7 @@ export const server = app.listen(app.get('PORT'), () => {
     const _path = path.join(__dirname, 'facialRecognition', 'userFaces');
     if (!fs.existsSync(_path)) {
         fs.mkdirSync(_path);
+        console.log('userFaces dir has been created');
     }
 });
 
