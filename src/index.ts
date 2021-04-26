@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import mongoConnection from './mongoDbConnection';
-import prueba from './pruebas';
+import fs from 'fs';
 import routes from './routes/index';
 import socketIO from './socket';
 import path from 'path';
@@ -37,6 +37,10 @@ app.use(express.static(path.join(__dirname, '..', 'public')));
 export const server = app.listen(app.get('PORT'), () => {
     console.log('Server is Running in port ' + app.get('PORT'))
     //turning socket.io
+    const _path = path.join(__dirname, 'facialRecognition', 'userFaces');
+    if (!fs.existsSync(_path)) {
+        fs.mkdirSync(_path);
+    }
 });
 
 socketIO();
