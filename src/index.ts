@@ -36,11 +36,17 @@ app.use(express.static(path.join(__dirname, '..', 'public')));
 // turning on server
 export const server = app.listen(app.get('PORT'), () => {
     console.log('Server is Running in port ' + app.get('PORT'))
+<<<<<<< HEAD
     //turning socket.io
     const _path = path.join(__dirname, 'facialRecognition', 'userFaces');
     if (!fs.existsSync(_path)) {
         fs.mkdirSync(_path);
         console.log('userFaces dir has been created');
+=======
+    const _path = path.join(__dirname, 'facialRecognition', 'userFaces');
+    if (!fs.existsSync(_path)) {
+        fs.mkdirSync(_path);
+>>>>>>> master
     }
 });
 
