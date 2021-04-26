@@ -10,7 +10,7 @@ import deleteMessageListener from './listeners/deleteMessageListener';
 export let io: Socket;
 
 export default () => {
-     const onlinePermiss= 'https://brandox-chat-app.netlify.app/';
+     const onlinePermiss= 'https://brandox-chat-app-frontend.herokuapp.com/';
      const offlinePermiss = 'http://localhost:3000/'
 
      io = require("socket.io")(server, {
