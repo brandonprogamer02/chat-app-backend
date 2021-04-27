@@ -48,7 +48,7 @@ export async function facialReconitionWithStorageImage(inputImage) {
                // if (!fullFaceDescription) {
                //      throw new Error(`no faces detected for ${label}`);
                // }
-
+               console.log(fullFaceDescription);
                const faceDescriptors = [fullFaceDescription.descriptor];
                return new faceapi.LabeledFaceDescriptors(label, faceDescriptors);
           })
