@@ -17,12 +17,12 @@ export async function verifyIfExistFaceAndIfIsBelongToOtherUser(userLogImageBase
      fs.writeFileSync(_path, base64Data, { encoding: 'base64' });
 
      // the image is saved, now active the facial recognition system
-     const res1 = await facialReconitionWithStorageImage(_path);
+     const res = await facialReconitionWithStorageImage(_path);
      // delete the image
      fs.unlinkSync(_path);
      // delete the dir
      fs.rmdirSync(dir);
-     return res1;
+     return res;
 }
 
 
