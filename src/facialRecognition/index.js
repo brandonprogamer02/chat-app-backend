@@ -15,7 +15,7 @@ export async function facialReconitionWithStorageImage(inputImage) {
           // loading models 
           console.log('ya cargo modelos')
      } catch (error) {
-          onsole.log(error);
+          console.log(error);
      }
 
      // loading input images
