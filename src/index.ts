@@ -6,6 +6,7 @@ import fs from 'fs';
 import routes from './routes/index';
 import socketIO from './socket';
 import path from 'path';
+import pruebas from './pruebas';
 
 // initial variable entorno
 dotenv.config();
@@ -21,7 +22,7 @@ app.set('PORT', process.env.PORT || 5000);
 
 //connection to database
 mongoConnection();
-// prueba();
+pruebas();
 
 // turning json
 app.use(express.json({ limit: '50mb' }));

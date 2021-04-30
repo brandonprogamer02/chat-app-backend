@@ -1,7 +1,7 @@
 import * as faceapi from 'face-api.js';
 import path from 'path';
 import canvas, { Canvas, Image } from 'canvas';
-import fs from 'fs';
+import UserModel from '../models/UserModel';
 
 export async function facialReconitionWithStorageImage(inputImage) {
      const MODEL_URL = path.join(__dirname, 'models');
@@ -18,8 +18,6 @@ export async function facialReconitionWithStorageImage(inputImage) {
           console.log(error);
      }
 
-     // loading input images
-
      faceapi.env.monkeyPatch({ Canvas, Image });
      const img = await canvas.loadImage(inputImage);
 
@@ -35,21 +33,22 @@ export async function facialReconitionWithStorageImage(inputImage) {
           }
      }
      // getting name of all user's faceImages
-     const labels = fs.readdirSync(path.join(__dirname, 'userFaces'));
+     // const labels = fs.readdirSync(path.join(__dirname, 'userFaces'));
+
+     const labels = await UserModel.find({});
+
      // getting array with all face user images knowed
      console.log('ya leyo los label')
      const labeledFaceDescriptors = await Promise.all(
           labels.map(async label => {
                try {
-                    const urlImg = path.join(__dirname, `userFaces/${label}`);
-                    const img = await canvas.loadImage(urlImg);
+                    const img = await canvas.loadImage(label.imageProfile);
                     // detect the face with the highest score in the image and compute it's landmarks and face descriptor
                     const fullFaceDescription = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor();
 
                     // if (!fullFaceDescription) {
                     //      throw new Error(`no faces detected for ${label}`);
                     // }
-                    console.log(fullFaceDescription);
                     const faceDescriptors = [fullFaceDescription.descriptor];
                     return new faceapi.LabeledFaceDescriptors(label, faceDescriptors);
                } catch (error) {
@@ -80,6 +79,4 @@ export async function facialReconitionWithStorageImage(inputImage) {
 
 
 }
-
-
 

@@ -10,7 +10,7 @@ export const createUserAndTokenJWT = async (user: IUserSign): Promise<ICreateUse
           password: user.password,
           active: false,
           contacts: [],
-          imageProfile: ''
+          imageProfile: user.userLogImage
      };
      const token = jwt.sign({ user: userCreated }, 'SECRETKEY');
      const data = await new UserModel(userCreated).save() as unknown as IUser;

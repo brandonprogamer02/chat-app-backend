@@ -1,7 +1,6 @@
 import { RequestHandler } from "express";
 import { ICreateUserAndTokenJWT, IUser, IUserSign } from "../../../types";
-import { verifyIfExistFaceAndIfIsBelongToOtherUser, saveImageStorage } from '../../../facialRecognition/utils'
-import UserModel from "../../../models/UserModel";
+import { verifyIfExistFaceAndIfIsBelongToOtherUser } from '../../../facialRecognition/utils'
 import { createUserAndTokenJWT } from "../../../auth";
 
 const signController: RequestHandler = async (req, res, next): Promise<void> => {
@@ -24,8 +23,7 @@ const signController: RequestHandler = async (req, res, next): Promise<void> => 
           }else if (!dataRecognition) {
                // create the user and tok    en
                const resJWT: ICreateUserAndTokenJWT = await createUserAndTokenJWT({ username, password, userLogImage });
-               const userId = resJWT.userCreated._id as string;
-               saveImageStorage(userLogImage, userId);
+               // const userId = resJWT.userCreated._id as string;
                // response to client
                res.json({
                     token: resJWT.token,
