@@ -8,7 +8,7 @@ import { IUser, IUserArray, IUserBodyParam, IUserSign, IVerifyJWT } from '../typ
 export const getUsers: RequestHandler = async (req, res, next): Promise<void> => {
 
      const username: string = req.query.username as string;
-     const token: string = req.query.token as string;
+
 
      if (username) {
           // find the all documents(users) that contain the username
@@ -17,20 +17,6 @@ export const getUsers: RequestHandler = async (req, res, next): Promise<void> =>
                res.json(user);
           } else {
                res.status(400).send('the user not found in database by username');
-          }
-
-     } else if (token) {
-          const resJWT: IVerifyJWT = verifyJWT(token as string);
-          try {
-               if (resJWT.authData) {
-                    const username = resJWT.authData.user.username;
-                    const usernameData = await UserModel.findOne({ username: username }, '-password');
-                    res.json({ user: usernameData });
-               } else {
-                    res.status(400).send('token is invalid');
-               }
-          } catch (error) {
-               res.status(400).send('token is invalid');
           }
      } else {
           const users = await UserModel.find({}, '-password').populate('');
@@ -54,7 +40,26 @@ export const getUser: RequestHandler = async (req, res, next): Promise<void> => 
 
 export const insertUser: RequestHandler = async (req, res, next): Promise<void> => {
      const user: IUserSign = req.body;
+     const token: string = req.body.token as string;
      // validation for received user
+
+     if (token) {
+          const resJWT: IVerifyJWT = verifyJWT(token as string);
+          try {
+               if (resJWT.authData) {
+                    const username = resJWT.authData.user.username;
+                    const usernameData = await UserModel.findOne({ username: username }, '-password');
+                    console.log('lo que eh');
+                    console.log(usernameData)
+                    res.json({ user: usernameData });
+               } else {
+                    res.status(400).send('token is invalid');
+               }
+          } catch (error) {
+               res.status(400).send('token is invalid');
+          }
+     }
+
      if (!user.username) res.status(400).send('the property "username" has not been provided');
      else if (!user.password) res.status(400).send('the property "password" has not been provided');
      else {

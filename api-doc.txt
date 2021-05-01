@@ -57,7 +57,7 @@ le devuelve si el token es valido, ahi que pasarle:
 le devuelve si el usuario existe para iniciar sesion por reconocimineto facial, ahi que pasarle
 {
      base64image: string
-}
+}    
 ====================================================================================
 
 // USER ROUTE
@@ -65,7 +65,10 @@ le devuelve si el usuario existe para iniciar sesion por reconocimineto facial, 
 GET /user => return all users
 GET /user?username => return all users that contain the string provided in hir username
 
-GET /user?token=<mytoken> => return the user by token
+POST /user 
+{
+     token: <mytoken>
+}=> return the user by token
 
 GET /user/:id => return the user by id
 

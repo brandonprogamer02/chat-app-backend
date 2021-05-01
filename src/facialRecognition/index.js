@@ -39,9 +39,10 @@ export async function facialReconitionWithStorageImage(inputImage) {
 
      // getting array with all face user images knowed
      console.log('ya leyo los label')
-     const labeledFaceDescriptors = await Promise.all(
+     let labeledFaceDescriptors = await Promise.all(
           labels.map(async label => {
                try {
+
                     const img = await canvas.loadImage(label.imageProfile);
                     // detect the face with the highest score in the image and compute it's landmarks and face descriptor
                     const fullFaceDescription = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor();
@@ -50,12 +51,15 @@ export async function facialReconitionWithStorageImage(inputImage) {
                     //      throw new Error(`no faces detected for ${label}`);
                     // }
                     const faceDescriptors = [fullFaceDescription.descriptor];
-                    return new faceapi.LabeledFaceDescriptors(label, faceDescriptors);
+                    return new faceapi.LabeledFaceDescriptors(label.username, faceDescriptors);
                } catch (error) {
-                    console.log(error);
+                    console.log('no se  pudo cargar la imagen de: ' + label.username);
                }
+
           })
      );
+     // delete the undefined's
+     labeledFaceDescriptors = labeledFaceDescriptors.filter(el => el != undefined);
      console.log('ya recorrio los labels')
      // matching faceusers rendered with input image
      const maxDescriptorDistance = 0.6;
@@ -65,12 +69,14 @@ export async function facialReconitionWithStorageImage(inputImage) {
           const results = fullFaceDescriptions.map(fd => faceMatcher.findBestMatch(fd.descriptor));
 
           console.log('facial recognition finished');
+          console.log('results: ')
+          console.log(results);
           return ({
                facesDetecting: results.length,
                dataRecognition: results
           });
      } catch (error) {
-          console.log('facial recognition finished');
+          console.log('facial recognition finished, error: ' + error);
           return ({
                facesDetecting: fullFaceDescriptions.length,
                dataRecognition: null

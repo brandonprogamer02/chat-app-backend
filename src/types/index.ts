@@ -50,9 +50,6 @@ export interface IUserSign {
      userLogImage: string
 }
 
-export interface ILogFacialRecognition {
-     base64image: string
-}
 
 export interface IUserLog {
      user: {
@@ -60,7 +57,7 @@ export interface IUserLog {
           password: string
      },
      token: string,
-     resource: ILogFacialRecognition
+     base64image: string
 }
 
 export interface IVerifyJWT {
