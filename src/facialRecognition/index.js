@@ -4,7 +4,7 @@ import canvas, { Canvas, Image } from 'canvas';
 import UserModel from '../models/UserModel';
 
 export async function facialReconitionWithStorageImage(inputImage) {
-     const MODEL_URL = path.join(__dirname, '..', 'modelsFacialRecognition');
+     const MODEL_URL = path.join(__dirname, '..', '..', 'modelsFacialRecognition');
 
      try {
           await Promise.all([
