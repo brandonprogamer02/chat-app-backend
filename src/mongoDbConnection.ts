@@ -4,7 +4,7 @@ async function mongoConnection() {
      const mongoDBAtlas = process.env.STRING_CONNECTION_ONLINE
      const mongoDBLocal = process.env.STRING_CONNECTION_LOCAL
 
-     if (mongoDBLocal === undefined) throw new Error('')
+     if (mongoDBLocal === undefined) throw new Error('');
      if (mongoDBAtlas === undefined) throw new Error('')
 
      const connectionParams: ConnectionOptions = {
