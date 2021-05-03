@@ -30,12 +30,12 @@ const signController: RequestHandler = async (req, res, next): Promise<void> => 
                     faceDetecting: facesDetecting == 0 ? false : true,
                     faceRecognition: false
                });
-          } else if (dataRecognition) {
+          } else {
                res.json({
                     token: null,
                     faceDetecting: facesDetecting == 0 ? false : true,
                     faceRecognition: true
-               })
+               });
           }
      }
 
