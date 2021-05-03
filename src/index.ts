@@ -46,7 +46,10 @@ export const server = app.listen(app.get('PORT'), () => {
         console.log('userFaces dir has been created');
 
     }
+    server.timeout = 120;
 });
+
+
 
 socketIO();
 
