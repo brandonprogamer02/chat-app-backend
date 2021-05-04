@@ -7,7 +7,6 @@ import routes from './routes/index';
 import socketIO from './socket';
 import path from 'path';
 import pruebas from './pruebas';
-import axios from 'axios';
 
 // initial variable entorno
 dotenv.config();
